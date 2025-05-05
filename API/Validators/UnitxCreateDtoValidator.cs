@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace API.Validators
 {
-    public class UnitxDtoValidator : AbstractValidator<UnitxDto>
+    public class UnitxCreateDtoValidator : AbstractValidator<UnitxDto>
     {
-        public UnitxDtoValidator() 
+        public UnitxCreateDtoValidator() 
         {
             RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
             RuleFor(x => x.Details).NotEmpty().MaximumLength(500);

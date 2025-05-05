@@ -1,3 +1,4 @@
+using API;
 using API.Data;
 using API.Validators;
 using FluentValidation;
@@ -16,6 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(option => { option.UseSqlServer(buil
 });
 builder.Services.AddValidatorsFromAssemblyContaining<UnitxDtoValidator>();
 builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddAutoMapper(typeof(MapperConfig));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
