@@ -1,5 +1,8 @@
 using API;
 using API.Data;
+using API.Models;
+using API.Repository;
+using API.Repository.IRepository;
 using API.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -18,6 +21,17 @@ builder.Services.AddDbContext<AppDbContext>(option => { option.UseSqlServer(buil
 builder.Services.AddValidatorsFromAssemblyContaining<UnitxDtoValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddAutoMapper(typeof(MapperConfig));
+builder.Services.AddScoped<ICommandRepository<Unitx>, CommandRepository<Unitx>>();
+builder.Services.AddScoped<IQueryRepository<Unitx>, QueryRepository<Unitx>>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,7 +40,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
